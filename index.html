@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tracker Mikronova</title>
+<style>
+  :root {
+    --bg: #f4f2fb;
+    --card-bg: #ffffff;
+    --text: #1f1730;
+    --text-sub: #6b6478;
+    --accent: #5c296b;
+    --accent-2: #2aa9a6;
+    --border: #e8e3f2;
+    --input-bg: rgba(255, 255, 255, 0.8);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16121f;
+      --card-bg: #211c2e;
+      --text: #f2eefa;
+      --text-sub: #b3aac2;
+      --accent: #c9a3d9;
+      --accent-2: #6fd8d4;
+      --border: #34294a;
+      --input-bg: rgba(33, 28, 46, 0.8);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #16121f;
+    --card-bg: #211c2e;
+    --text: #f2eefa;
+    --text-sub: #b3aac2;
+    --accent: #c9a3d9;
+    --accent-2: #6fd8d4;
+    --border: #34294a;
+    --input-bg: rgba(33, 28, 46, 0.8);
+  }
+
+  :root[data-theme="light"] {
+    --bg: #f4f2fb;
+    --card-bg: #ffffff;
+    --text: #1f1730;
+    --text-sub: #6b6478;
+    --accent: #5c296b;
+    --accent-2: #2aa9a6;
+    --border: #e8e3f2;
+    --input-bg: rgba(255, 255, 255, 0.8);
+  }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100%;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 20px 56px;
+    position: relative;
+  }
+  
+  /* Theme Toggle Button */
+  .theme-toggle {
+    position: absolute;
+    top: 24px;
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.15s ease;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    transform: scale(1.05);
+  }
+  .theme-toggle:active {
+    transform: scale(0.95);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  header .mark {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 14px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    box-shadow: 0 8px 16px -4px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  header h1 {
+    font-size: 22px;
+    margin: 0 0 4px;
+    font-weight: 700;
+  }
+  header p {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--text-sub);
+    line-height: 1.4;
+  }
+
+  /* Search Input */
+  .search-box {
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .search-input::placeholder {
+    color: var(--text-sub);
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--text-sub);
+    pointer-events: none;
+  }
+
+  .section {
+    margin-top: 28px;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px 4px;
+  }
+  .subgroup-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-sub);
+    margin: 14px 0 8px 4px;
+  }
+  a.link-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+  a.link-card:active {
+    transform: scale(0.98);
+  }
+  a.link-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .link-icon {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+  .link-text {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .link-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .link-sub {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .chev {
+    flex: 0 0 auto;
+    color: var(--text-sub);
+    font-size: 16px;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+  a.link-card:hover .chev {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--text-sub);
+    font-size: 14px;
+    display: none;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 11.5px;
+    color: var(--text-sub);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- Theme Toggle Switcher -->
+    <button class="theme-toggle" id="themeToggle" title="Ganti Tema" aria-label="Toggle Theme">
+      <span id="themeIcon">🌙</span>
+    </button>
+
+    <header>
+      <div class="mark">🔗</div>
+      <h1>Tracker Mikronova</h1>
+      <p>Kumpulan tracker &amp; dashboard NTB, ETB, Sales Force Efficiency, dan Portfolio Quality</p>
+    </header>
+
+    <!-- Filter/Search Bar -->
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Cari tracker atau dashboard..." />
+    </div>
+
+    <div id="linksContainer">
+      <div class="section" data-section>
+        <div class="section-title">AM Dashboard</div>
+
+        <a class="link-card" href="https://docs.google.com/spreadsheets/d/19QkiVd6pVeVp5l4O5-5O3Ei-RyE3XwPUscOA52tszJQ/edit?gid=0#gid=0&range=A1" target="_blank" rel="noopener">
+          <div class="link-icon">📈</div>
+          <div class="link-text">
+            <div class="link-title">AM Dashboard</div>
+            <div class="link-sub">Google Sheets</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+      </div>
+
+      <div class="section" data-section>
+        <div class="section-title">NTB Dashboard</div>
+
+        <a class="link-card" href="https://docs.google.com/spreadsheets/d/11gNw9ANJ80YJKzAN7aa3gYUfcvpqfC6MGhNXRo3HsM0/edit?gid=993641387#gid=993641387" target="_blank" rel="noopener">
+          <div class="link-icon">📊</div>
+          <div class="link-text">
+            <div class="link-title">Tracker End to End</div>
+            <div class="link-sub">Google Sheets</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+
+        <a class="link-card" href="https://superset.amartha.id/superset/dashboard/2789/" target="_blank" rel="noopener">
+          <div class="link-icon">🔀</div>
+          <div class="link-text">
+            <div class="link-title">Tracker NTB Leads Funnel</div>
+            <div class="link-sub">Superset Dashboard</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+
+        <a class="link-card" href="https://superset.amartha.id/superset/dashboard/2803/" target="_blank" rel="noopener">
+          <div class="link-icon">📋</div>
+          <div class="link-text">
+            <div class="link-title">Raw Leads — Sudah/Belum di-FU BP</div>
+            <div class="link-sub">Superset Dashboard</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+
+        <a class="link-card" href="https://docs.google.com/presentation/d/1WEyCCUCThoHiPFi32LC0BVXOvNIYvZskwGGVuMXmAEc/edit?slide=id.h7107e3eabb69ee15_0_0#slide=id.h7107e3eabb69ee15_0_0" target="_blank" rel="noopener">
+          <div class="link-icon">📖</div>
+          <div class="link-text">
+            <div class="link-title">Panduan Lengkap NTB</div>
+            <div class="link-sub">Google Slides</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+      </div>
+
+      <div class="section" data-section>
+        <div class="section-title">ETB</div>
+
+        <a class="link-card" href="https://script.google.com/a/macros/amartha.com/s/AKfycbyqIkt2NsMZiKMi-t7UUjxEC884X4umP4R0JtVKrahm0DIU9ixIxCxNz3SnXs49KKqgyg/exec" target="_blank" rel="noopener">
+          <div class="link-icon">🗂️</div>
+          <div class="link-text">
+            <div class="link-title">ETB Apps Script</div>
+            <div class="link-sub">Apps Script</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+
+        <a class="link-card" href="https://docs.google.com/spreadsheets/d/1jS5-vhm4KPhp02t7iIWWglGeTHtdLZ7UWIJ2ovo8_yw/edit?gid=0#gid=0" target="_blank" rel="noopener">
+          <div class="link-icon">📊</div>
+          <div class="link-text">
+            <div class="link-title">ETB Tracker Report</div>
+            <div class="link-sub">Google Sheets</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+
+        <a class="link-card" href="https://docs.google.com/presentation/d/1Zmch9fpyrxnH6cmRSWQofbw6CONMWcZ-CA7ABCK16rQ/edit?slide=id.g40a0ad0285a_0_9#slide=id.g40a0ad0285a_0_9" target="_blank" rel="noopener">
+          <div class="link-icon">📖</div>
+          <div class="link-text">
+            <div class="link-title">Panduan Lengkap ETB</div>
+            <div class="link-sub">Google Slides</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+      </div>
+
+      <div class="section" data-section>
+        <div class="section-title">Sales Force Efficiency</div>
+
+        <a class="link-card" href="https://docs.google.com/spreadsheets/d/1yMe6JsRwYvE55ofpIFnB85tR43QjQyxlvk0j1TCEYvI/edit?gid=0#gid=0" target="_blank" rel="noopener">
+          <div class="link-icon">✅</div>
+          <div class="link-text">
+            <div class="link-title">Daily Task Completion</div>
+            <div class="link-sub">Google Sheets</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+
+        <div class="subgroup-wrapper" data-subgroup>
+          <div class="subgroup-title">Wave 1</div>
+          <a class="link-card" href="https://docs.google.com/spreadsheets/d/1mGpOwONMfxccSP7qRMPneIGE9qfI8iV-qIvkpyd0LCI/edit?gid=600252900#gid=600252900" target="_blank" rel="noopener">
+            <div class="link-icon">🕌</div>
+            <div class="link-text">
+              <div class="link-title">Majelis Merging</div>
+              <div class="link-sub">Google Sheets</div>
+            </div>
+            <div class="chev">↗</div>
+          </a>
+          <a class="link-card" href="https://docs.google.com/spreadsheets/d/1S8_VHTay8_0z41N8g8XfBl--9MldZCuIF475I-pIC_M/edit?gid=1020340088#gid=1020340088" target="_blank" rel="noopener">
+            <div class="link-icon">📍</div>
+            <div class="link-text">
+              <div class="link-title">Majelis Teritory &gt;25KM</div>
+              <div class="link-sub">Google Sheets</div>
+            </div>
+            <div class="chev">↗</div>
+          </a>
+          <a class="link-card" href="https://docs.google.com/spreadsheets/d/1H8HtbJ6bgiFKLndh2w3ijcBiUh0vcwoJD5CAQCjUA2g/edit?gid=1267972497#gid=1267972497" target="_blank" rel="noopener">
+            <div class="link-icon">🌅</div>
+            <div class="link-text">
+              <div class="link-title">Morning Briefing Tracker</div>
+              <div class="link-sub">Google Sheets</div>
+            </div>
+            <div class="chev">↗</div>
+          </a>
+        </div>
+
+        <div class="subgroup-wrapper" data-subgroup>
+          <div class="subgroup-title">Wave 2</div>
+          <a class="link-card" href="https://docs.google.com/spreadsheets/d/1Ag_qX2ySovC2gBRmYzt0YVZhsCTbryxu0haOHjuLG1k/edit?gid=600252900#gid=600252900" target="_blank" rel="noopener">
+            <div class="link-icon">🕌</div>
+            <div class="link-text">
+              <div class="link-title">Majelis Merging</div>
+              <div class="link-sub">Google Sheets</div>
+            </div>
+            <div class="chev">↗</div>
+          </a>
+          <a class="link-card" href="https://docs.google.com/spreadsheets/d/1SYgm7LY41rRtvsgpGrffBa1E60mb9jpELKlemYV-zxQ/edit?gid=1584538763#gid=1584538763" target="_blank" rel="noopener">
+            <div class="link-icon">📍</div>
+            <div class="link-text">
+              <div class="link-title">Majelis Teritory &gt;25KM</div>
+              <div class="link-sub">Google Sheets</div>
+            </div>
+            <div class="chev">↗</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="section" data-section>
+        <div class="section-title">Portfolio Quality</div>
+
+        <a class="link-card" href="https://docs.google.com/spreadsheets/d/1xYoKppUxPtFSl9mAyS8NLwSRaXEzm013rvQJn2TMxEI/edit?gid=1487074455#gid=1487074455" target="_blank" rel="noopener">
+          <div class="link-icon">💬</div>
+          <div class="link-text">
+            <div class="link-title">WAG Majelis</div>
+            <div class="link-sub">Google Sheets</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+        <a class="link-card" href="https://docs.google.com/spreadsheets/d/1092EbOzPlFQA9lbgGl8yxPMcw378bB_HoGZABVSn2_8/edit?gid=1800580695#gid=1800580695" target="_blank" rel="noopener">
+          <div class="link-icon">🏠</div>
+          <div class="link-text">
+            <div class="link-title">Homevisit</div>
+            <div class="link-sub">Google Sheets</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+        <a class="link-card" href="https://docs.google.com/spreadsheets/d/1p3r_MDQFkpvub1rNefgu0q-6417WsHisRDu6xTIJblw/edit?gid=1152609018#gid=1152609018" target="_blank" rel="noopener">
+          <div class="link-icon">⚠️</div>
+          <div class="link-text">
+            <div class="link-title">Mitra High Risk</div>
+            <div class="link-sub">Google Sheets</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+        <a class="link-card" href="https://bit.ly/Appsheet-Visit-AM" target="_blank" rel="noopener">
+          <div class="link-icon">🚶</div>
+          <div class="link-text">
+            <div class="link-title">Visit AM</div>
+            <div class="link-sub">AppSheet</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+        <a class="link-card" href="https://bit.ly/Appsheet-Visit-BM" target="_blank" rel="noopener">
+          <div class="link-icon">🤝</div>
+          <div class="link-text">
+            <div class="link-title">Visit Mitra &amp; Majelis BM</div>
+            <div class="link-sub">AppSheet</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+        <a class="link-card" href="https://bit.ly/mbgrevamping_dashboard" target="_blank" rel="noopener">
+          <div class="link-icon">📡</div>
+          <div class="link-text">
+            <div class="link-title">Monitoring Visit Majelis AM &amp; BM</div>
+            <div class="link-sub">Dashboard</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+      </div>
+    </div>
+
+    <div id="noResults" class="no-results">
+      Tidak ada link yang sesuai dengan pencarian.
+    </div>
+
+    <footer>Amartha Payment &amp; Lending Business — Tracker Mikronova</footer>
+  </div>
+
+  <script>
+    // Theme Switcher Logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const rootElement = document.documentElement;
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        rootElement.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+      } else if (theme === 'light') {
+        rootElement.setAttribute('data-theme', 'light');
+        themeIcon.textContent = '🌙';
+      } else {
+        rootElement.removeAttribute('data-theme');
+        const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        themeIcon.textContent = systemIsDark ? '☀️' : '🌙';
+      }
+    }
+
+    const savedTheme = localStorage.getItem('mikronova-theme');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    } else {
+      applyTheme('system');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = rootElement.getAttribute('data-theme');
+      let nextTheme = 'dark';
+      
+      if (currentTheme === 'dark') {
+        nextTheme = 'light';
+      } else if (currentTheme === 'light') {
+        nextTheme = 'dark';
+      } else {
+        const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        nextTheme = systemIsDark ? 'light' : 'dark';
+      }
+
+      localStorage.setItem('mikronova-theme', nextTheme);
+      applyTheme(nextTheme);
+    });
+
+    // Dynamic Live Filter Logic
+    const searchInput = document.getElementById('searchInput');
+    const sections = document.querySelectorAll('[data-section]');
+    const noResults = document.getElementById('noResults');
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      let totalVisible = 0;
+
+      sections.forEach(section => {
+        const linkCards = section.querySelectorAll('.link-card');
+        const subgroups = section.querySelectorAll('[data-subgroup]');
+        let sectionVisibleCount = 0;
+
+        linkCards.forEach(card => {
+          const title = card.querySelector('.link-title').textContent.toLowerCase();
+          const sub = card.querySelector('.link-sub').textContent.toLowerCase();
+
+          if (title.includes(query) || sub.includes(query)) {
+            card.style.display = 'flex';
+            sectionVisibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Handle subgroup visibility
+        subgroups.forEach(subgroup => {
+          const subCards = subgroup.querySelectorAll('.link-card');
+          const hasVisibleSubCard = Array.from(subCards).some(c => c.style.display !== 'none');
+          subgroup.style.display = hasVisibleSubCard ? 'block' : 'none';
+        });
+
+        if (sectionVisibleCount > 0) {
+          section.style.display = 'block';
+          totalVisible += sectionVisibleCount;
+        } else {
+          section.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = totalVisible === 0 ? 'block' : 'none';
+    });
+  </script>
+</body>
+</html>
