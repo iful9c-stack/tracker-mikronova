@@ -71,8 +71,7 @@
     padding: 32px 20px 56px;
     position: relative;
   }
-  
-  /* Theme Toggle Button */
+
   .theme-toggle {
     position: absolute;
     top: 24px;
@@ -90,18 +89,10 @@
     font-size: 16px;
     transition: all 0.15s ease;
   }
-  .theme-toggle:hover {
-    border-color: var(--accent);
-    transform: scale(1.05);
-  }
-  .theme-toggle:active {
-    transform: scale(0.95);
-  }
+  .theme-toggle:hover { border-color: var(--accent); transform: scale(1.05); }
+  .theme-toggle:active { transform: scale(0.95); }
 
-  header {
-    text-align: center;
-    margin-bottom: 24px;
-  }
+  header { text-align: center; margin-bottom: 24px; }
   header .mark {
     width: 52px;
     height: 52px;
@@ -115,23 +106,10 @@
     color: white;
     box-shadow: 0 8px 16px -4px color-mix(in srgb, var(--accent) 30%, transparent);
   }
-  header h1 {
-    font-size: 22px;
-    margin: 0 0 4px;
-    font-weight: 700;
-  }
-  header p {
-    margin: 0;
-    font-size: 13.5px;
-    color: var(--text-sub);
-    line-height: 1.4;
-  }
+  header h1 { font-size: 22px; margin: 0 0 4px; font-weight: 700; }
+  header p { margin: 0; font-size: 13.5px; color: var(--text-sub); line-height: 1.4; }
 
-  /* Search Input */
-  .search-box {
-    margin-bottom: 24px;
-    position: relative;
-  }
+  .search-box { margin-bottom: 24px; position: relative; }
   .search-input {
     width: 100%;
     padding: 12px 16px 12px 40px;
@@ -143,9 +121,7 @@
     outline: none;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
-  .search-input::placeholder {
-    color: var(--text-sub);
-  }
+  .search-input::placeholder { color: var(--text-sub); }
   .search-input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
@@ -160,9 +136,7 @@
     pointer-events: none;
   }
 
-  .section {
-    margin-top: 28px;
-  }
+  .section { margin-top: 28px; }
   .section-title {
     font-size: 13px;
     font-weight: 700;
@@ -190,9 +164,7 @@
     color: var(--text);
     transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
   }
-  a.link-card:active {
-    transform: scale(0.98);
-  }
+  a.link-card:active { transform: scale(0.98); }
   a.link-card:hover {
     border-color: var(--accent);
     box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 8%, transparent);
@@ -208,15 +180,8 @@
     font-size: 17px;
     background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
-  .link-text {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-  .link-title {
-    font-size: 14.5px;
-    font-weight: 600;
-    line-height: 1.3;
-  }
+  .link-text { flex: 1 1 auto; min-width: 0; }
+  .link-title { font-size: 14.5px; font-weight: 600; line-height: 1.3; }
   .link-sub {
     font-size: 12px;
     color: var(--text-sub);
@@ -231,10 +196,7 @@
     font-size: 16px;
     transition: transform 0.15s ease, color 0.15s ease;
   }
-  a.link-card:hover .chev {
-    color: var(--accent);
-    transform: translate(2px, -2px);
-  }
+  a.link-card:hover .chev { color: var(--accent); transform: translate(2px, -2px); }
 
   .no-results {
     text-align: center;
@@ -244,17 +206,11 @@
     display: none;
   }
 
-  footer {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 11.5px;
-    color: var(--text-sub);
-  }
+  footer { text-align: center; margin-top: 40px; font-size: 11.5px; color: var(--text-sub); }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- Theme Toggle Switcher -->
     <button class="theme-toggle" id="themeToggle" title="Ganti Tema" aria-label="Toggle Theme">
       <span id="themeIcon">🌙</span>
     </button>
@@ -265,7 +221,6 @@
       <p>Kumpulan tracker &amp; dashboard NTB, ETB, Sales Force Efficiency, dan Portfolio Quality</p>
     </header>
 
-    <!-- Filter/Search Bar -->
     <div class="search-box">
       <span class="search-icon">🔍</span>
       <input type="text" id="searchInput" class="search-input" placeholder="Cari tracker atau dashboard..." />
@@ -414,7 +369,15 @@
           <a class="link-card" href="https://docs.google.com/spreadsheets/d/1Ag_qX2ySovC2gBRmYzt0YVZhsCTbryxu0haOHjuLG1k/edit?gid=600252900#gid=600252900" target="_blank" rel="noopener">
             <div class="link-icon">🕌</div>
             <div class="link-text">
-              <div class="link-title">Majelis Merging</div>
+              <div class="link-title">Majelis Merging — Jawa 1, Sumatera 1</div>
+              <div class="link-sub">Google Sheets</div>
+            </div>
+            <div class="chev">↗</div>
+          </a>
+          <a class="link-card" href="https://docs.google.com/spreadsheets/d/1JvEjNkcWQYz0T0x2wkM4ivEQ2owjedcN1P7hu5uWudk/edit?gid=600252900#gid=600252900" target="_blank" rel="noopener">
+            <div class="link-icon">🕌</div>
+            <div class="link-text">
+              <div class="link-title">Majelis Merging — Bali Nusra, Kalimantan, Sulawesi</div>
               <div class="link-sub">Google Sheets</div>
             </div>
             <div class="chev">↗</div>
@@ -428,6 +391,28 @@
             <div class="chev">↗</div>
           </a>
         </div>
+      </div>
+
+      <div class="section" data-section>
+        <div class="section-title">Panduan Amarthapedia</div>
+
+        <a class="link-card" href="https://academy.amartha.com/course/view.php?id=2724" target="_blank" rel="noopener">
+          <div class="link-icon">🌅</div>
+          <div class="link-text">
+            <div class="link-title">Panduan Morning Briefing</div>
+            <div class="link-sub">Amarthapedia</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
+
+        <a class="link-card" href="https://academy.amartha.com/course/view.php?id=2853" target="_blank" rel="noopener">
+          <div class="link-icon">🌇</div>
+          <div class="link-text">
+            <div class="link-title">Panduan Closing Harian</div>
+            <div class="link-sub">Amarthapedia</div>
+          </div>
+          <div class="chev">↗</div>
+        </a>
       </div>
 
       <div class="section" data-section>
@@ -484,7 +469,6 @@
   </div>
 
   <script>
-    // Theme Switcher Logic
     const themeToggleBtn = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const rootElement = document.documentElement;
@@ -503,17 +487,13 @@
       }
     }
 
-    const savedTheme = localStorage.getItem('mikronova-theme');
-    if (savedTheme) {
-      applyTheme(savedTheme);
-    } else {
-      applyTheme('system');
-    }
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('mikronova-theme'); } catch (e) {}
+    applyTheme(savedTheme || 'system');
 
     themeToggleBtn.addEventListener('click', () => {
       const currentTheme = rootElement.getAttribute('data-theme');
       let nextTheme = 'dark';
-      
       if (currentTheme === 'dark') {
         nextTheme = 'light';
       } else if (currentTheme === 'light') {
@@ -522,12 +502,10 @@
         const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         nextTheme = systemIsDark ? 'light' : 'dark';
       }
-
-      localStorage.setItem('mikronova-theme', nextTheme);
+      try { localStorage.setItem('mikronova-theme', nextTheme); } catch (e) {}
       applyTheme(nextTheme);
     });
 
-    // Dynamic Live Filter Logic
     const searchInput = document.getElementById('searchInput');
     const sections = document.querySelectorAll('[data-section]');
     const noResults = document.getElementById('noResults');
@@ -553,7 +531,6 @@
           }
         });
 
-        // Handle subgroup visibility
         subgroups.forEach(subgroup => {
           const subCards = subgroup.querySelectorAll('.link-card');
           const hasVisibleSubCard = Array.from(subCards).some(c => c.style.display !== 'none');
